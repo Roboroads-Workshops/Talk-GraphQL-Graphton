@@ -1,0 +1,32 @@
+type User {
+    id: ID!
+    name: String!
+    created_at: DateTimeTzToUtc!
+    updated_at: DateTimeTzToUtc!
+    deleted_at: DateTimeTzToUtc
+
+    # Relations
+    posts: [Post!]!
+    comments: [Comment!]!
+}
+
+extend type Query {
+    users(
+        orderBy: _ @orderBy(columns: ["id", "name", "created_at", "updated_at", "deleted_at"])
+    ): [User!]! @all
+    user(id: ID @eq): User @find
+}
+extend type Mutation {
+    createUser(
+        name: String @rules(apply: ["required", "max:100"])
+        password: String @rules(apply: ["required", "string"]) @hash
+    ): User! @create @trim
+
+    updateUser(
+        id: ID!
+        name: String @rules(apply: ["required", "max:100"])
+        password: String @rules(apply: ["string"]) @hash
+    ): User! @update @trim
+
+    deleteUser(id: ID!): User! @delete
+}

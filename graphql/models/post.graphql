@@ -1,0 +1,24 @@
+type Post {
+    id: ID!
+    user_id: ID!
+    title: String!
+    body: String!
+    created_at: DateTimeTzToUtc!
+    updated_at: DateTimeTzToUtc!
+    deleted_at: DateTimeTzToUtc
+
+    # Relations
+    author: User!
+    comments: [Comment!]!
+}
+
+extend type Query {
+    post(id: ID! @eq): Post @find
+    posts(user_id: ID @eq): [Post!]! @find
+}
+
+extend type Mutation {
+    createPost(user_id: ID!, title: String!, body: String!): Post @create
+    updatePost(id: ID!, title: String, body: String): Post @update
+    deletePost(id: ID!): Post @delete
+}

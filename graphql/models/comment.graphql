@@ -1,0 +1,23 @@
+type Comment {
+    id: ID!
+    user_id: ID!
+    post_id: ID!
+    body: String!
+    created_at: DateTimeTzToUtc!
+    updated_at: DateTimeTzToUtc!
+    deleted_at: DateTimeTzToUtc
+
+    author: User!
+    post: Post!
+}
+
+extend type Query {
+    comment(id: ID @eq): Comment @find
+    comments(post_id: ID @eq, user_id: ID @eq): [Comment!]! @find
+}
+
+extend type Mutation {
+    createComment(post_id: ID!, user_id: ID!, body: String!): Comment @create
+    updateComment(id: ID!, body: String!): Comment @update
+    deleteComment(id: ID!): Comment @delete
+}

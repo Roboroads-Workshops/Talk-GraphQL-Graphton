@@ -1,0 +1,8 @@
+$v = Validator::make(['date' => '2022-02-27T01:21:02+01:00'], [
+    'date' => ['date_format:Y-m-d\\TH:i:sP']
+]);
+$v->fails();
+new Carbon('2022-03-06T13:49:04+01:00');
+new Carbon\Carbon('2022-03-06T13:49:04+01:00');
+$x = new Carbon\Carbon('2022-03-06T13:49:04+01:00');
+$x->format('Y-m-d H:i:s');
